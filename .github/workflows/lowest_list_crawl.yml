@@ -41,7 +41,6 @@ jobs:
         with:
           name: danawa_lowest_prices_*.xlsx
           path: ../
-          continue-on-error: true
 
       - name: Run Python script
         run: python danawa_lowest_crawler.py
