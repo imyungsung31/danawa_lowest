@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
+        with:
+          persist-credentials: false # `actions/checkout`가 기본적으로 설정하는 자격 증명을 사용하지 않도록 설정
 
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -21,7 +23,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
+          sudo apt-get install -y google-chrome-stable libjpeg-dev zlib1g-dev
 
       - name: Cache pip dependencies
         uses: actions/cache@v2
@@ -50,7 +52,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: danawa_lowest_prices
-          path: ../.
+          path: .
 
       - name: Run Python script
         run: python3 danawa_lowest_crawler.py
@@ -69,7 +71,7 @@ jobs:
           git commit -m "Update danawa_lowest_prices.xlsx"
           git push
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy to Streamlit
         run: |
