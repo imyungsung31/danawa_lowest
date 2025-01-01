@@ -39,8 +39,8 @@ jobs:
       - name: Download existing artifact
         uses: actions/download-artifact@v3
         with:
-          name: danawa_lowest_prices
-          path: .
+          name: danawa_lowest_prices_*.xlsx
+          path: ../
           continue-on-error: true
 
       - name: Run Python script
