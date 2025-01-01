@@ -36,10 +36,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install --only-binary=pandas -r requirements.txt
 
+      - name: Download existing artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: danawa_lowest_prices
+          path: .
+
       - name: Run Python script
         run: python danawa_lowest_crawler.py
 
-      - name: Upload result file
+      - name: Upload updated artifact
         uses: actions/upload-artifact@v3
         with:
           name: danawa_lowest_prices
