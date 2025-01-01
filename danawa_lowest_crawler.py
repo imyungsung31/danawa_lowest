@@ -4,6 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import pandas as pd
 from datetime import datetime
+import pytz
 import os
 from openpyxl import load_workbook
 from openpyxl.chart import LineChart, Reference, Series
@@ -26,7 +27,9 @@ def crawl_and_update_excel():
     driver.get(url)
 
     # 현재 시간의 가격 데이터를 저장할 딕셔너리
-    current_prices = {'날짜 및 시간': datetime.now().strftime('%Y-%m-%d %H:%M')}
+    kst = pytz.timezone('Asia/Seoul')
+    current_time = datetime.now(kst).strftime('%Y-%m-%d %H:%M')
+    current_prices = {'날짜 및 시간': current_time}
 
     try:
         # 명시적 대기 설정
