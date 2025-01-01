@@ -8,9 +8,10 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from datetime import datetime
 import pytz
+import plotly.express as px
 
 # Streamlit 애플리케이션
-st.title("다나와 최저가 모니터링")
+st.title("다나와 최저가 크롤러")
 st.write("다나와 사이트에서 최저가 정보를 크롤링하고 엑셀 파일에 저장합니다.")
 st.write("모니터링 요청했던 물건의 pcode를 입력하세요.")
 
@@ -70,8 +71,18 @@ if st.session_state.searched:
             st.write("### Area Chart")
             st.area_chart(df.set_index('날짜 및 시간'))
 
+            # Plotly 파이 차트
+            st.write("### Pie Chart")
+            pie_chart = px.pie(df, names='날짜 및 시간', values=df.columns[1], title='Price Distribution')
+            st.plotly_chart(pie_chart)
+
+            # Plotly 바 차트
+            st.write("### Plotly Bar Chart")
+            bar_chart = px.bar(df, x='날짜 및 시간', y=df.columns[1], title='Price Over Time')
+            st.plotly_chart(bar_chart)
+
             # 데이터 다운로드
-            st.write("### Download Data")
+            st.write("### 다운로드")
             csv = df.to_csv(index=False).encode('utf-8')
             st.download_button(
                 label="Download data as CSV",
