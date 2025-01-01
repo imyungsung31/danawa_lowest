@@ -113,8 +113,8 @@ def crawl_and_update_excel():
         chart.style = 13
         chart.y_axis.title = '가격'
         chart.x_axis.title = '날짜 및 시간'
-        chart.width = 30
-        chart.height = 15
+        chart.width = 40  # 차트 너비를 40으로 설정
+        chart.height = 20  # 차트 높이를 20으로 설정
 
         # 데이터 참조
         data = Reference(ws, min_col=2, min_row=1, max_col=ws.max_column, max_row=ws.max_row)
@@ -134,7 +134,7 @@ def crawl_and_update_excel():
             series.marker.graphicalProperties.line.solidFill = colors[i % len(colors)]
 
         # 차트 추가
-        ws.add_chart(chart, "E5")
+        ws.add_chart(chart, "O5")  # 차트를 H5 위치에 추가하여 오른쪽으로 이동
 
         # 엑셀 파일 저장
         wb.save(file_path)
