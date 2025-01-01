@@ -53,7 +53,7 @@ jobs:
           path: .
 
       - name: Run Python script
-        run: python danawa_lowest_crawler.py
+        run: python3 danawa_lowest_crawler.py
 
       - name: Upload updated artifact
         uses: actions/upload-artifact@v3
