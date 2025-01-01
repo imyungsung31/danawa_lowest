@@ -18,56 +18,61 @@ st.write("모니터링 요청했던 물건의 pcode를 입력하세요.")
 if 'pcode' not in st.session_state:
     st.session_state.pcode = ""
 
+if 'searched' not in st.session_state:
+    st.session_state.searched = False
+
 pcode = st.text_input("물건의 고유 번호를 입력하세요", st.session_state.pcode)
 
 # 검색 버튼
 if st.button("검색"):
     st.session_state.pcode = pcode
+    st.session_state.searched = True
 
 # 엑셀 파일 경로
 file_path = f'danawa_lowest_prices_{st.session_state.pcode}.xlsx'
 
 # 엑셀 파일 읽기
-if st.session_state.pcode:
-    if os.path.exists(file_path):
-        df = pd.read_excel(file_path)
-        # 데이터 필터링
-        st.write("### Filter Data")
-        date_filter = st.date_input("Select date range", [])
-        if date_filter:
-            start_date, end_date = date_filter
-            df = df[(df['날짜 및 시간'] >= pd.to_datetime(start_date)) & (df['날짜 및 시간'] <= pd.to_datetime(end_date))]
+if st.session_state.searched:
+    if st.session_state.pcode:
+        if os.path.exists(file_path):
+            df = pd.read_excel(file_path)
+
+            # 데이터프레임 표시
+            st.write("### Data")
             st.dataframe(df)
 
-        # 데이터프레임 표시
-        st.write("### Data")
-        st.dataframe(df)
+            # 데이터 요약 통계
+            st.write("### Summary Statistics")
+            st.write(df.describe())
 
-        # 데이터 요약 통계
-        st.write("### Summary Statistics")
-        st.write(df.describe())
+            # 데이터 필터링
+            st.write("### Filter Data")
+            date_filter = st.date_input("Select date range", [])
+            if date_filter:
+                start_date, end_date = date_filter
+                df = df[(df['날짜 및 시간'] >= pd.to_datetime(start_date)) & (df['날짜 및 시간'] <= pd.to_datetime(end_date))]
+                st.dataframe(df)
 
+            # 차트 표시
+            st.write("### Line Chart")
+            st.line_chart(df.set_index('날짜 및 시간'))
 
-        # 차트 표시
-        st.write("### Line Chart")
-        st.line_chart(df.set_index('날짜 및 시간'))
+            st.write("### Bar Chart")
+            st.bar_chart(df.set_index('날짜 및 시간'))
 
-        st.write("### Bar Chart")
-        st.bar_chart(df.set_index('날짜 및 시간'))
+            st.write("### Area Chart")
+            st.area_chart(df.set_index('날짜 및 시간'))
 
-        st.write("### Area Chart")
-        st.area_chart(df.set_index('날짜 및 시간'))
-
-        # 데이터 다운로드
-        st.write("### Download Data")
-        csv = df.to_csv(index=False).encode('utf-8')
-        st.download_button(
-            label="Download data as CSV",
-            data=csv,
-            file_name='danawa_lowest_prices.csv',
-            mime='text/csv',
-        )
+            # 데이터 다운로드
+            st.write("### Download Data")
+            csv = df.to_csv(index=False).encode('utf-8')
+            st.download_button(
+                label="Download data as CSV",
+                data=csv,
+                file_name='danawa_lowest_prices.csv',
+                mime='text/csv',
+            )
+        else:
+            st.write("No data available. Please run the Python script to generate the Excel file.")
     else:
-        st.write("No data")
-else:
-    st.write("pcode를 입력해주세요.")
+        st.write("pcode를 입력해주새요.")
