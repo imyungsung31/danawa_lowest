@@ -30,6 +30,13 @@ file_path = f'danawa_lowest_prices_{st.session_state.pcode}.xlsx'
 # 엑셀 파일 읽기
 if os.path.exists(file_path):
     df = pd.read_excel(file_path)
+    # 데이터 필터링
+    st.write("### Filter Data")
+    date_filter = st.date_input("Select date range", [])
+    if date_filter:
+        start_date, end_date = date_filter
+        df = df[(df['날짜 및 시간'] >= pd.to_datetime(start_date)) & (df['날짜 및 시간'] <= pd.to_datetime(end_date))]
+        st.dataframe(df)
 
     # 데이터프레임 표시
     st.write("### Data")
@@ -39,13 +46,6 @@ if os.path.exists(file_path):
     st.write("### Summary Statistics")
     st.write(df.describe())
 
-    # 데이터 필터링
-    st.write("### Filter Data")
-    date_filter = st.date_input("Select date range", [])
-    if date_filter:
-        start_date, end_date = date_filter
-        df = df[(df['날짜 및 시간'] >= pd.to_datetime(start_date)) & (df['날짜 및 시간'] <= pd.to_datetime(end_date))]
-        st.dataframe(df)
 
     # 차트 표시
     st.write("### Line Chart")
