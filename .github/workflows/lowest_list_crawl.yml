@@ -23,7 +23,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y google-chrome-stable libjpeg-dev zlib1g-dev
+          sudo apt-get install -y google-chrome-stable libjpeg-dev zlib1g-dev libfreetype6-dev liblcms2-dev libopenjp2-7 libtiff-dev
 
       - name: Cache pip dependencies
         uses: actions/cache@v2
@@ -73,7 +73,3 @@ jobs:
           git add danawa_lowest_prices_*.xlsx
           git commit -m "Update danawa_lowest_prices.xlsx"
           git push origin HEAD:main
-
-      - name: Deploy to Streamlit
-        run: |
-          streamlit run app.py
