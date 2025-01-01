@@ -8,13 +8,18 @@ import os
 from openpyxl import load_workbook
 from openpyxl.chart import LineChart, Reference, Series
 from openpyxl.utils.dataframe import dataframe_to_rows
+from selenium.webdriver.chrome.options import Options
 
 # pcode = "69059459"
 pcode = "70531547"
 
 def crawl_and_update_excel():
     # Chrome 드라이버 설정
-    driver = webdriver.Chrome()
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")  # headless 모드 활성화
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    driver = webdriver.Chrome(options=chrome_options)
 
     # 웹페이지 로드
     url = "https://prod.danawa.com/info/?pcode=" + pcode
@@ -25,7 +30,7 @@ def crawl_and_update_excel():
 
     try:
         # 명시적 대기 설정
-        wait = WebDriverWait(driver, 1)
+        wait = WebDriverWait(driver, 10)
 
         # lowest list tr개수 가져오기 
         browser = driver
