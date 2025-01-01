@@ -21,6 +21,9 @@ if 'pcode' not in st.session_state:
 if 'searched' not in st.session_state:
     st.session_state.searched = False
 
+if 'date_filter' not in st.session_state:
+    st.session_state.date_filter = []
+
 pcode = st.text_input("물건의 고유 번호를 입력하세요", st.session_state.pcode)
 
 # 검색 버튼
@@ -37,10 +40,14 @@ if st.session_state.searched:
         if os.path.exists(file_path):
             df = pd.read_excel(file_path)
 
+            # 날짜 열을 명시적으로 변환
+            df['날짜 및 시간'] = pd.to_datetime(df['날짜 및 시간'])
+
             # 데이터 필터링
             st.write("### Filter Data")
-            date_filter = st.date_input("Select date range", [])
+            date_filter = st.date_input("Select date range", st.session_state.date_filter)
             if date_filter:
+                st.session_state.date_filter = date_filter
                 start_date, end_date = date_filter
                 df = df[(df['날짜 및 시간'] >= pd.to_datetime(start_date)) & (df['날짜 및 시간'] <= pd.to_datetime(end_date))]
                 st.dataframe(df)
@@ -52,7 +59,6 @@ if st.session_state.searched:
             # 데이터 요약 통계
             st.write("### Summary Statistics")
             st.write(df.describe())
-
 
             # 차트 표시
             st.write("### Line Chart")
