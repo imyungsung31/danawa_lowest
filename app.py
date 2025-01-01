@@ -1,8 +1,3 @@
-st.title("다나와 최저가 크롤러")
-st.write("다나와 사이트에서 최저가 정보를 크롤링하고 엑셀 파일에 저장합니다.")
-st.write("모니터링 요청했던 물건의 pcode를 입력하세요.")
-st.write("물건의 고유 번호는 다나와 사이트에서 확인할 수 있습니다.")
-
 import streamlit as st
 import pandas as pd
 import os
@@ -18,7 +13,6 @@ import pytz
 st.title("다나와 최저가 크롤러")
 st.write("다나와 사이트에서 최저가 정보를 크롤링하고 엑셀 파일에 저장합니다.")
 st.write("모니터링 요청했던 물건의 pcode를 입력하세요.")
-st.write("물건의 고유 번호는 다나와 사이트에서 확인할 수 있습니다.")
 
 # 고유 번호 입력
 pcode = st.text_input("물건의 고유 번호를 입력하세요", "")
