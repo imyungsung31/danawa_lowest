@@ -70,3 +70,7 @@ jobs:
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Deploy to Streamlit
+        run: |
+          streamlit run app.py
