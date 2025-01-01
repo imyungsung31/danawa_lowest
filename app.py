@@ -15,75 +15,56 @@ st.write("다나와 사이트에서 최저가 정보를 크롤링하고 엑셀 �
 st.write("모니터링 요청했던 물건의 pcode를 입력하세요.")
 
 # 고유 번호 입력
-pcode = st.text_input("물건의 고유 번호를 입력하세요", "")
+if 'pcode' not in st.session_state:
+    st.session_state.pcode = ""
+
+pcode = st.text_input("물건의 고유 번호를 입력하세요", st.session_state.pcode)
 
 # 검색 버튼
 if st.button("검색"):
-    if pcode:
-       
-        # 엑셀 파일 경로
-        # file_path = 'danawa_lowest_prices_70531547.xlsx'
-        file_path = f'danawa_lowest_prices_{pcode}.xlsx'
+    st.session_state.pcode = pcode
 
-        # 엑셀 파일 읽기
-        if os.path.exists(file_path):
-            df = pd.read_excel(file_path)
+# 엑셀 파일 경로
+file_path = f'danawa_lowest_prices_{st.session_state.pcode}.xlsx'
 
-            # 데이터프레임 표시
-            st.write("### Data")
-            st.dataframe(df)
+# 엑셀 파일 읽기
+if os.path.exists(file_path):
+    df = pd.read_excel(file_path)
 
-            # 데이터 요약 통계
-            st.write("### Summary Statistics")
-            st.write(df.describe())
+    # 데이터프레임 표시
+    st.write("### Data")
+    st.dataframe(df)
 
-            # 데이터 필터링
-            st.write("### Filter Data")
-            date_filter = st.date_input("Select date range", [])
-            if date_filter:
-                start_date, end_date = date_filter
-                df = df[(df['날짜 및 시간'] >= pd.to_datetime(start_date)) & (df['날짜 및 시간'] <= pd.to_datetime(end_date))]
-                st.dataframe(df)
+    # 데이터 요약 통계
+    st.write("### Summary Statistics")
+    st.write(df.describe())
 
-            #  # 데이터 필터링
-            # st.write("### Filter Data")
-            # date_filter = st.date_input("Select date range", [])
-            # if date_filter:
-            #     start_date, end_date = date_filter
-            #     df = df[(df['날짜 및 시간'] >= pd.to_datetime(start_date)) & (df['날짜 및 시간'] <= pd.to_datetime(end_date))]
-            #     st.dataframe(df)
+    # 데이터 필터링
+    st.write("### Filter Data")
+    date_filter = st.date_input("Select date range", [])
+    if date_filter:
+        start_date, end_date = date_filter
+        df = df[(df['날짜 및 시간'] >= pd.to_datetime(start_date)) & (df['날짜 및 시간'] <= pd.to_datetime(end_date))]
+        st.dataframe(df)
 
-            # 데이터 필터링
-            st.write("### Filter Data")
-            date_filter = st.date_input("Select date range", [])
-            if date_filter:
-                start_date, end_date = date_filter
-                df = df[(df['날짜 및 시간'] >= pd.to_datetime(start_date)) & (df['날짜 및 시간'] <= pd.to_datetime(end_date))]
-                st.dataframe(df)
+    # 차트 표시
+    st.write("### Line Chart")
+    st.line_chart(df.set_index('날짜 및 시간'))
 
+    st.write("### Bar Chart")
+    st.bar_chart(df.set_index('날짜 및 시간'))
 
-            # 차트 표시
-            st.write("### Line Chart")
-            st.line_chart(df.set_index('날짜 및 시간'))
+    st.write("### Area Chart")
+    st.area_chart(df.set_index('날짜 및 시간'))
 
-            st.write("### Bar Chart")
-            st.bar_chart(df.set_index('날짜 및 시간'))
-
-            st.write("### Area Chart")
-            st.area_chart(df.set_index('날짜 및 시간'))
-
-            # plotly bar chart 추가 
-            # plotly pie chart 추가 
-
-            # 데이터 다운로드
-            st.write("### Download Data")
-            csv = df.to_csv(index=False).encode('utf-8')
-            st.download_button(
-                label="Download data as CSV",
-                data=csv,
-                file_name='danawa_lowest_prices.csv',
-                mime='text/csv',
-            )
-        
-    else:
-        st.write("pcode를 입력해주세요.")
+    # 데이터 다운로드
+    st.write("### Download Data")
+    csv = df.to_csv(index=False).encode('utf-8')
+    st.download_button(
+        label="Download data as CSV",
+        data=csv,
+        file_name='danawa_lowest_prices.csv',
+        mime='text/csv',
+    )
+else:
+    st.write("pcode를 입력해주새요.")
