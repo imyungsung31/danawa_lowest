@@ -50,7 +50,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: danawa_lowest_prices
-          path: ../.
+          path: .
 
       - name: Run Python script
         run: python3 danawa_lowest_crawler.py

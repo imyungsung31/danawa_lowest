@@ -134,7 +134,7 @@ def crawl_and_update_excel():
             series.marker.graphicalProperties.line.solidFill = colors[i % len(colors)]
 
         # 차트 추가
-        ws.add_chart(chart, "O5")  # 차트를 H5 위치에 추가하여 오른쪽으로 이동
+        ws.add_chart(chart, "H5")  # 차트를 H5 위치에 추가하여 오른쪽으로 이동
 
         # 엑셀 파일 저장
         wb.save(file_path)
