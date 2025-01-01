@@ -71,15 +71,11 @@ if st.session_state.searched:
             st.write("### Area Chart")
             st.area_chart(df.set_index('날짜 및 시간'))
 
-            # Plotly 파이 차트
-            st.write("### Pie Chart")
-            pie_chart = px.pie(df, names='날짜 및 시간', values=df.columns[1], title='Price Distribution')
-            st.plotly_chart(pie_chart)
-
+            # mall별 디테일 페이지 구현시 필요할 수 있어서 냄겨둠 
             # Plotly 바 차트
-            st.write("### Plotly Bar Chart")
-            bar_chart = px.bar(df, x='날짜 및 시간', y=df.columns[1], title='Price Over Time')
-            st.plotly_chart(bar_chart)
+            # st.write("### Plotly Bar Chart")
+            # bar_chart = px.bar(df, x='날짜 및 시간', y=df.columns[1], title='Price Over Time')
+            # st.plotly_chart(bar_chart)
 
             # 데이터 다운로드
             st.write("### 다운로드")
