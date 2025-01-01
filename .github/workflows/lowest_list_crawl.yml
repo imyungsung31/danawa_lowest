@@ -36,11 +36,21 @@ jobs:
           python -m pip install --upgrade pip
           pip install --only-binary=pandas -r requirements.txt
 
+      - name: Check for existing artifact
+        id: check_artifact
+        run: |
+          if curl --head --silent --fail --location "https://api.github.com/repos/${{ github.repository }}/actions/artifacts" | grep -q "danawa_lowest_prices"; then
+            echo "artifact_exists=true" >> $GITHUB_ENV
+          else
+            echo "artifact_exists=false" >> $GITHUB_ENV
+          fi
+
       - name: Download existing artifact
+        if: env.artifact_exists == 'true'
         uses: actions/download-artifact@v3
         with:
-          name: danawa_lowest_prices_*.xlsx
-          path: ../
+          name: danawa_lowest_prices
+          path: .
 
       - name: Run Python script
         run: python danawa_lowest_crawler.py
