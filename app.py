@@ -86,4 +86,4 @@ if st.button("검색"):
             )
         
     else:
-        st.write("Please enter a valid product code.")
+        st.write("pcode를 입력해주세요.")
