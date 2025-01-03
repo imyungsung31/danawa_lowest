@@ -12,8 +12,9 @@ from openpyxl.utils.dataframe import dataframe_to_rows
 from selenium.webdriver.chrome.options import Options
 import streamlit as st
 
-# pcode = "69059459"
-pcode = "70531547"
+
+# pcode = "70531547"
+pcode = "69059459"
 
 def crawl_and_update_excel():
     # Chrome 드라이버 설정

@@ -15,6 +15,7 @@ st.title("다나와 최저가 크롤러")
 st.write("다나와 사이트에서 최저가 정보를 크롤링하고 엑셀 파일에 저장합니다.")
 st.write("모니터링 요청했던 물건의 pcode를 입력하세요.")
 # https://prod.danawa.com/info/?pcode=70531547
+# https://danawa.streamlit.app/
 
 # 고유 번호 입력
 if 'pcode' not in st.session_state:
